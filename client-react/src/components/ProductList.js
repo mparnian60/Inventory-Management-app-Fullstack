@@ -1,29 +1,32 @@
 import { useEffect, useState } from "react";
 import React from 'react';
-import {getProductListAPI} from '../api/productApi'
+import {createNewProductAPI, getProductListAPI, updateProductAPI, deleteProductAPI} from '../api/productApi';
 
 import MaterialTable from 'material-table';
 import Container from '@material-ui/core/Container';
+import MuiAlert from '@material-ui/lab/Alert';
 
-const ProductList = () => {
 
-    const[productList, setProductList]= useState([])
-    console.log('product list before use effect', productList);
+const ProductList = (props) => {
+
+  const [alert, setAlert] = useState(false);
+  const [errors, setErrors] = useState([]);
+
 
     useEffect(()=>{
-        async function getList(){
-            await getProductListAPI()
-            .then(data =>{
-                console.log('data', data);
-                setProductList(data)
+            getProductListAPI()
+            .then(result=>{
+                  console.log('data', result);
+                  /* object destructuring, creating a new object and add more into the object or overwrite current one*/
+                  const newState = {
+                    ...state, 
+                    data:result
+                  }
+                  setState(newState)
             })
-        }
-
-        getList();
-        
+            console.log('test')
     },[])
 
-    console.log('product list after use effect', productList);
 
     const [state, setState] = useState({
         columns: [
@@ -35,20 +38,31 @@ const ProductList = () => {
           { title: 'Safety Stock', field: 'safety_stock', type: 'numeric' },
           { title: 'Supplier Name', field: 'supplier_name' },
           { title: 'Lead Time', field: 'lead_time', type: 'numeric' },
-
         ],
-    data: productList
+    data: []
   });
 
+  const closeAlert = () =>{
+    setAlert(false)
+}
+
     return(
+      
         <Container component="main" maxWidth="l" >
+          {alert && <MuiAlert onClose={closeAlert} severity="error">{errors[0]}</MuiAlert>}
+          {props.admin ?
         <MaterialTable
         title="Product List"
         columns={state.columns}
         data={state.data}
         editable={{
-          onRowAdd: (newData) =>
-            new Promise((resolve) => {
+          onRowAdd: (async (newData) => {
+            console.log('new data', newData);
+
+            const result = await createNewProductAPI(newData)
+            console.log('reult new', result);
+
+            return new Promise((resolve) => {
               setTimeout(() => {
                 resolve();
                 setState((prevState) => {
@@ -57,9 +71,21 @@ const ProductList = () => {
                   return { ...prevState, data };
                 });
               }, 600);
-            }),
-          onRowUpdate: (newData, oldData) =>
-            new Promise((resolve) => {
+            })
+          }),
+          onRowUpdate: async (newData, oldData) =>{
+            console.log('new data', newData);
+            console.log('old data', oldData);
+
+            const result = await updateProductAPI(newData)
+            console.log('reult updated', result);
+
+            if (result.errors) {
+              setAlert(true);
+              setErrors(result.errors)
+            }
+
+             return new Promise((resolve) => {
               setTimeout(() => {
                 resolve();
                 if (oldData) {
@@ -70,9 +96,15 @@ const ProductList = () => {
                   });
                 }
               }, 600);
-            }),
-          onRowDelete: (oldData) =>
-            new Promise((resolve) => {
+            })
+          },
+          onRowDelete: ( async (oldData) =>{
+            console.log('old data', oldData);
+
+            const result = await deleteProductAPI(oldData)
+            console.log('reult deleted', result);
+
+            return new Promise((resolve) => {
               setTimeout(() => {
                 resolve();
                 setState((prevState) => {
@@ -81,9 +113,17 @@ const ProductList = () => {
                   return { ...prevState, data };
                 });
               }, 600);
-            }),
+            })
+          })
         }}
       />
+    : 
+    <MaterialTable
+        title="Product List"
+        columns={state.columns}
+        data={state.data}
+        />
+      }
       </Container>
     )
 }

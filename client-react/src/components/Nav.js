@@ -3,7 +3,8 @@ import {BrowserRouter as Router, Switch, Route, Link, Redirect, useHistory} from
 import Login from './Login';
 import SignUp from './SignUp';
 import NewProduct from './NewProduct';
-import ProductList from './ProductList'
+import ProductList from './ProductList';
+import Home from './Home';
 
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -12,6 +13,7 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
+import ProductTransactions from './ProductTransaction';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -80,6 +82,9 @@ const useStyles = makeStyles((theme) => ({
                         {admin && <Link to="/newproduct">
                             <Button className={classes.Btn} color="inherit">New Product</Button>
                         </Link>}
+                        <Link to="/inventory">
+                            <Button className={classes.Btn} color="inherit">Inventory</Button>
+                        </Link>
                     </IconButton>
                     <Typography variant="h6" className={classes.title}>
                     </Typography>
@@ -101,10 +106,13 @@ const useStyles = makeStyles((theme) => ({
               <Home />
             </Route>
             <Route path="/productlist">
-              {loggedIn ? <ProductList /> : <Redirect to='/login' />}
+              {loggedIn ? <ProductList admin={admin}/> : <Redirect to='/login' />}
             </Route>
             <Route path="/newproduct">
               {loggedIn ? <NewProduct /> : <Redirect to='/login' />}
+            </Route>
+            <Route path="/inventory">
+              {loggedIn ? <ProductTransactions /> : <Redirect to='/login' />}
             </Route>
             <Route path="/login">
               <Login setLoggedIn={setLoggedIn} setAdmin={setAdmin}/>
@@ -115,17 +123,6 @@ const useStyles = makeStyles((theme) => ({
           </Switch>
         </div>
       </Router>
-    );
-  }
-  
-  // You can think of these components as "pages"
-  // in your app.
-  
-  function Home() {
-    return (
-      <div>
-        <h2>Home</h2>
-      </div>
     );
   }
   

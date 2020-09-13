@@ -84,6 +84,7 @@ export default function NewProduct() {
 
   return (
     <Container component="main" maxWidth="xs" >
+    {alert && <MuiAlert onClose={closeAlert} severity="error">{errors[0]}</MuiAlert>}
       <Typography variant="h6" gutterBottom>
         Product Details
       </Typography>
@@ -92,6 +93,7 @@ export default function NewProduct() {
           <Grid item xs={12} sm={6}>
             <TextField onChange={onChange}
               required
+              value={product.product_code}
               id="product_code"
               name="product_code"
               label="Product Code"
@@ -101,6 +103,7 @@ export default function NewProduct() {
           </Grid>
           <Grid item xs={12}>
             <TextField onChange={onChange}
+              value={product.product_description}
               id="product_description"
               name="product_description"
               label="Product Description"
@@ -146,6 +149,7 @@ export default function NewProduct() {
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextField onChange={onChange}
+              value={product.MOQ}
               id="MOQ"
               name="MOQ"
               label="MOQ"
@@ -155,6 +159,7 @@ export default function NewProduct() {
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextField onChange={onChange}
+              value={product.safety_stock}
               id="safety_stock"
               name="safety_stock"
               label="Safety Stock"
@@ -164,6 +169,7 @@ export default function NewProduct() {
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextField onChange={onChange}
+              value={product.supplier_name}
               required
               id="supplier_name"
               name="supplier_name"
@@ -175,6 +181,7 @@ export default function NewProduct() {
           <Grid item xs={12} sm={6}>
             <TextField onChange={onChange}
               required
+              value={product.lead_time}
               id="lead_time"
               name="lead_time"
               label="Lead Time"
@@ -194,7 +201,6 @@ export default function NewProduct() {
         </Grid>
       </form>
 
-      {alert && <MuiAlert onClose={closeAlert} severity="error">{errors[0]}</MuiAlert>}
     </Container>
   )
 }
