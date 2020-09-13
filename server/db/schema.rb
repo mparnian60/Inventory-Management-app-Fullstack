@@ -10,18 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_10_115651) do
+ActiveRecord::Schema.define(version: 2020_09_12_053224) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "product_summary_availibilities", force: :cascade do |t|
+  create_table "product_transactions", id: :bigint, default: -> { "nextval('product_summary_availibilities_id_seq'::regclass)" }, force: :cascade do |t|
     t.string "product_code"
     t.date "transaction_date"
     t.string "transaction_code"
     t.integer "quantity"
     t.integer "stock_on_hand"
-    t.integer "user_id"
+    t.integer "product_id"
   end
 
   create_table "products", id: :bigint, default: -> { "nextval('product_details_id_seq'::regclass)" }, force: :cascade do |t|
@@ -33,7 +33,6 @@ ActiveRecord::Schema.define(version: 2020_09_10_115651) do
     t.integer "safety_stock"
     t.string "supplier_name"
     t.integer "lead_time"
-    t.integer "user_id"
   end
 
   create_table "supplier_details", force: :cascade do |t|
