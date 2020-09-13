@@ -27,6 +27,10 @@ class ApplicationController < ActionController::API
     render json: { message: 'Invalid login' }, status: :unauthorized unless decode_token
   end
 
+  def user_admin
+    render json: { message: 'Invalid user' }, status: :unauthorized unless @user.role == 'admin'
+  end
+
   # def user_admin
   #   role = User.find_by(role: params[:role])
   #   render json: { message: 'Invalid Role' } unless role == 'admin'

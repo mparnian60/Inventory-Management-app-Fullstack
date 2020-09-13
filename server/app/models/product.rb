@@ -1,3 +1,5 @@
 class Product <ApplicationRecord
-  belongs_to :user
+  has_many :product_transactions
+
+  validates :product_code, uniqueness: { message: 'already exist' }
 end

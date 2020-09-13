@@ -13,8 +13,6 @@ class Api::UsersController < ApplicationController
     else
       render json: { errors: user.errors.full_messages }, status: :not_acceptable
     end
-    
-    
   end
 
   def update
