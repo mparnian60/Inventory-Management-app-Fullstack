@@ -34,10 +34,10 @@ const ProductList = (props) => {
           { title: 'Product Description', field: 'product_description' },
           { title: 'UOM', field: 'UOM' },
           { title: 'PFR', field: 'PFR' },
-          { title: 'MOQ', field: 'MOQ', type: 'numeric' },
-          { title: 'Safety Stock', field: 'safety_stock', type: 'numeric' },
+          { title: 'MOQ', field: 'MOQ' },
+          { title: 'Safety Stock', field: 'safety_stock' },
           { title: 'Supplier Name', field: 'supplier_name' },
-          { title: 'Lead Time', field: 'lead_time', type: 'numeric' },
+          { title: 'Lead Time', field: 'lead_time' },
         ],
     data: []
   });

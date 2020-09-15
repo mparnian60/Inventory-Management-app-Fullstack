@@ -67,7 +67,7 @@ export default function ProductTransactions() {
         //   onChange={handleChange}
           label="ProductCode"
         >
-            {mapProductCode}
+            {/* {mapProductCode} */}
             {/* {mapProductCodes()} */}
           {/* <MenuItem value={10}>Ten</MenuItem>
           <MenuItem value={20}>Twenty</MenuItem>

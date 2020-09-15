@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
     },
   }));
 
-const values = ["Simply Powerfull", "Simply Affordable", "Simply Modern"];
+const values = ["Simply Powerful", "Simply Affordable", "Simply Modern"];
 
 const defaultOptions = {
     chars: [
@@ -24,17 +24,7 @@ const defaultOptions = {
 const Home = () =>{
     const classes = useStyles();
 
-    const[startStatus, setStartStatus] = useState(true)
-    const history = useHistory();
 
-    const handleClick = () =>{
-        if(localStorage.getItem('token')){
-            setStartStatus(false)
-        }else{
-            history.push('login')
-        }
-
-    }
 
    const { result, dencrypt } = useDencrypt(defaultOptions);
 
@@ -54,12 +44,6 @@ const Home = () =>{
         <React.Fragment>
             <div><h1 class="homeHeader">Inventory Mangement</h1></div>
             <div class="homeStyle">{result}</div>
-            {startStatus &&
-            <div className={classes.root}>
-            <Button variant="contained" color="primary" onClick={handleClick}>
-                Start
-            </Button>
-            </div>}
         </React.Fragment>
       
       )

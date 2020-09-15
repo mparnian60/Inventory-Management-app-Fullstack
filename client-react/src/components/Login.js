@@ -20,9 +20,11 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
+import MuiAlert from '@material-ui/lab/Alert';
 
 
 
+// history.createHistory()
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
@@ -46,13 +48,19 @@ const useStyles = makeStyles((theme) => ({
 export default function Login(props) {
     const classes = useStyles();
 
-    const history = useHistory()
-
-    // console.log('login history', history)
+    let history = useHistory();
+    console.log('login history', history)
 
     const[name, setName] = useState('')
     const[password, setPassword] = useState('');
     const [role, setRole] = useState('');
+
+    const[alert, setAlert] = useState(false);
+    const[errors, setErrors] = useState('');
+
+    const closeAlert = () =>{
+      setAlert(false)
+  }
 
     const handleSubmit = (e)=>{
       e.preventDefault();
@@ -76,6 +84,8 @@ export default function Login(props) {
 
          history.push('/');
 
+         
+
          props.setLoggedIn(true);
          if(localStorage.getItem('role') === 'admin'){
           props.setAdmin(true);
@@ -83,13 +93,20 @@ export default function Login(props) {
          
 
 
-      }).catch((e)=> console.log('e',e))
+      }).catch((e)=> {
+        if(e){
+          setAlert(true);
+          setErrors(e)
+          }
+        console.log('e',e)
+      })
     }
 
 
     return (
       <Container component="main" maxWidth="xs">
         <CssBaseline />
+        {alert && <MuiAlert onClose={closeAlert} severity="error">{errors}</MuiAlert>}
         <div className={classes.paper}>
           <Avatar className={classes.avatar}>
             <LockOutlinedIcon />
