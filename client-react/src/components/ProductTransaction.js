@@ -1,5 +1,5 @@
-import React, {useState, useEffect} from 'react';
-import {getProductCodeAndDescAPI} from '../api/productApi'
+import React, { useState, useEffect } from 'react';
+import { getProductCodeAndDescAPI } from '../api/productApi'
 
 
 import Container from '@material-ui/core/Container';
@@ -12,74 +12,70 @@ import Select from '@material-ui/core/Select';
 import TextField from '@material-ui/core/TextField';
 
 const useStyles = makeStyles((theme) => ({
-    formControl: {
-      margin: theme.spacing(1),
-      minWidth: 220,
-    },
-    selectEmpty: {
-      marginTop: theme.spacing(2),
-    },
-  }));
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 220,
+  },
+  selectEmpty: {
+    marginTop: theme.spacing(2),
+  },
+}));
 
 
 
 export default function ProductTransactions() {
 
-    const classes = useStyles();
-    const [productCodes, setProductCodes] = useState([]);
-    // const [loading, setLoading] = useState(true)
+  const classes = useStyles();
+  const[productDetails, setProductDetails] = useState([]);
+  const[productSelected, setProductSelected] = useState('')
+  const[productDesc, setProductDesc] = useState('')
 
-    const productCode = async () =>{
-        const response = await getProductCodeAndDescAPI();
+  const getProductCode = () => {
+    getProductCodeAndDescAPI()
+      .then((response) => {
         console.log('productdetails', response)
-        let productCodeArr = response.map((details) =>details.product_code)
-        console.log('productCodeArr', productCodeArr)
 
-        setProductCodes(productCodeArr)
-    }
+        setProductDetails(response)
+      })
+  }
 
-      const mapProductCode = () =>{
-          productCodes.map((code) =>{
-          return(
-            <MenuItem value={productCodes}>{productCodes}</MenuItem>
-          )
-      })}
-
-    useEffect(()=>{
-        productCode();
-    },[])
+  useEffect(() => {
+    getProductCode();
+  }, [])
 
 
-    // const handleChange = (event) => {
-    //     setProductCodes(event.target.value);
-    //   };
-    
+  const handleChange = (event) => {
+      setProductSelected(event.target.value);
+      console.log('event', event)
+      setProductDesc(event.nativeEvent.target.dataset.desc)
+      console.log('dataset', event.nativeEvent.target.dataset.code)
+    };
 
-    return(
 
-        <Container component="main" maxWidth="l" >
-        <FormControl variant="outlined" className={classes.formControl}>
+  return (
+
+    <Container component="main" maxWidth="l" >
+      <FormControl variant="outlined" className={classes.formControl}>
         <InputLabel id="demo-simple-select-outlined-label">Product Code</InputLabel>
         <Select
           labelId="demo-simple-select-outlined-label"
           id="demo-simple-select-outlined"
-          value={productCodes}
-        //   onChange={handleChange}
+          value={productSelected}
+          onChange={handleChange}
           label="ProductCode"
         >
-            {/* {mapProductCode} */}
-            {/* {mapProductCodes()} */}
-          {/* <MenuItem value={10}>Ten</MenuItem>
-          <MenuItem value={20}>Twenty</MenuItem>
-          <MenuItem value={30}>Thirty</MenuItem> */}
+          {productDetails.map((product) => {
+            return (
+              <MenuItem key={product.id} value={product.product_code} data-desc={product.product_description}>{product.product_code}</MenuItem>
+            )
+          })}
         </Select>
       </FormControl>
       <FormControl variant="outlined" className={classes.formControl}>
-        <TextField id="outlined-basic" label="Outlined" variant="outlined" />
+        <TextField id="outlined-basic" label="Outlined" variant="outlined" value={productDesc} />
       </FormControl>
-      </Container>
-    )
+    </Container>
+  )
 }
 
 
-   

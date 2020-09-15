@@ -65,7 +65,8 @@ const useStyles = makeStyles((theme) => ({
       window.localStorage.removeItem('role');
       setLoggedIn(false);
       setAdmin(false);
-      // history.push('/')
+      //below is used when there is no history and we can do redirect
+      window.location.replace('/')
     }
 
     return (
