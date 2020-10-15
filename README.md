@@ -24,7 +24,7 @@ The Core requirements set out for this project where the following:
 ### Signup/ Login Page
 Admin is able to create a new user.
 ### Home page
-Project description
+Project name
 ### New product (logged in Admin)
 This page is being used to create a new product
 ### Product Details (logged in Admin)
