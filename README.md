@@ -34,5 +34,5 @@ This page shows the list and details of all created product. User is just able t
 ## CHALLENGE ADD-ONS (Achieved)
 * Having two type of user with different accessibility
 ## FURTHER IMPROVEMENTS
-* Add inventory page to the app in front add Which enable admin to choose a product and update SOH by adding product transaction e.g. any purchase order quantity will be added to SOH and any sales order will be deducted from SOH.
-* Add the logic in the back end, therefore updated SOH will be updated in the database.
+* Add inventory page to the app in frontend Which enable admin to choose a product and update SOH by adding product transaction e.g. any purchase order quantity will be added to SOH and any sales order will be deducted from SOH.
+* Add required logic in the backend for inventory page, therefore updated SOH can be saved in the database.
